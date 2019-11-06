@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -5,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
+public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
     List<ClientProxy> clients;
 
     protected ChatServerImpl() throws RemoteException {
@@ -14,9 +15,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
 
     @Override
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
+
         if(clients.contains(handle))return null;
 
         clients.add(handle);
+
         return null;
     }
 
