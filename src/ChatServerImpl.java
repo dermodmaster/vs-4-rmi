@@ -1,4 +1,4 @@
-import java.rmi.RemoteException;
+import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
