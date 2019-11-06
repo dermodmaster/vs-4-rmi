@@ -1,15 +1,13 @@
 import javax.swing.*;
-import java.io.Serializable;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class ChatClient extends JFrame{
-    JTextArea output;
-    JTextField input;
+    JTextArea area;
+    JTextField field;
 
     ClientProxy handle;
     ChatProxy proxy;
@@ -28,23 +26,22 @@ public class ChatClient extends JFrame{
         handle = new ClientProxyImpl(this);
         proxy=chatServer.subscribeUser(handle);
 
-        setTitle(username);
+        setTitle("Username :"+username);
         getContentPane().setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        output = new JTextArea();
-        output.setEditable(false);
+        area = new JTextArea();
+        area.setEditable(false);
         JScrollPane scroller = new JScrollPane();
         scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroller.getViewport().setView(output);
+        scroller.getViewport().setView(area);
         getContentPane().add(scroller, BorderLayout.CENTER);
-        input = new JTextField();
-        getContentPane().add(input, BorderLayout.NORTH);
+        field = new JTextField();
+        getContentPane().add(field, BorderLayout.NORTH);
         //Nachricht schreiben
-        input.addActionListener(new ActionListener() {
+        field.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    sendMessage(input.getText(),username);
-                    input.setText("");
+                    sendMessage(field.getText(),username);
+                    field.setText("");
                 } catch(RemoteException ex) {
                     ex.printStackTrace();
                 }
@@ -65,7 +62,22 @@ public class ChatClient extends JFrame{
                 System.exit(0);
             }
         });
-        setSize(400, 300);
+
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                try {
+                    chatServer.unsubscribeUser(handle);
+                }
+                catch(RemoteException re){
+                    re.printStackTrace();
+                }
+                dispose();
+                System.exit(0);
+            }
+        });
+        setSize(1000, 600);
     }
 
     public static void main (String[] args){
@@ -90,8 +102,8 @@ public class ChatClient extends JFrame{
      * @param message Die bekommene Nachricht
      */
     public void showMessage(String username, String message) {
-        output.append(username +": "+message+"\n");
-        output.setCaretPosition(output.getText().length()-1);
+        area.append(username +": "+message+"\n");
+        area.setCaretPosition(area.getText().length()-1);
     }
 
     /**
