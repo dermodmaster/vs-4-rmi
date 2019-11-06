@@ -11,4 +11,8 @@ public class ClientProxyImpl implements ClientProxy, Serializable {
     public void receiveMessage(String username, String message) throws RemoteException{
         this.client.receiveMessage(username, message);
     }
+
+    public String getUsername(){
+        return this.client.getUsername();
+    }
 }

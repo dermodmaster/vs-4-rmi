@@ -17,7 +17,6 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
 
         if(clients.contains(handle))return null;
-
         clients.add(handle);
 
         return null;
@@ -25,7 +24,12 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
 
     @Override
     public boolean unsubscribeUser(ClientProxy handle) throws RemoteException {
-        return false;
+        boolean success = false;
+        if(this.clients.contains(handle)){
+            this.clients.remove(handle);
+            success = true;
+        }
+        return success;
     }
 
     public static void main(String[] args){
