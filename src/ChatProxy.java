@@ -1,2 +1,3 @@
-public class ChatProxy {
+import java.rmi.RemoteException;
+public interface ChatProxy {
 }
