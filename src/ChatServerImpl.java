@@ -27,8 +27,7 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
             }
         }
         clients.add(handle);
-
-        return null;
+        return new ChatProxyImpl(this);
     }
 
     @Override
