@@ -13,6 +13,12 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
         this.clients = new ArrayList<ClientProxy>();
     }
 
+    public void sendMessage(String username, String message) throws RemoteException{
+        for(ClientProxy client : clients){
+            client.receiveMessage(username, message);
+        }
+    }
+
     @Override
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
         for(int i=0;i<clients.size();i++){
