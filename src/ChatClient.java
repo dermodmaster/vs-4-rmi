@@ -19,4 +19,8 @@ public class ChatClient extends JFrame {
             e.printStackTrace();
         }
     }
+
+    public void receiveMessage(String nickname, String message) {
+        System.out.println("Nachricht von "+nickname+": "+message);
+    }
 }
