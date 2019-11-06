@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 
-public class ChatProxyImpl implements ChatProxy{
+public class ChatProxyImpl implements ChatProxy, Serializable {
     ChatServer server;
     public ChatProxyImpl(ChatServerImpl server){
         this.server=server;
