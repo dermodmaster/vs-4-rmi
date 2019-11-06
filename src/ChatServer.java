@@ -5,5 +5,5 @@ public interface ChatServer extends Remote {
 
     public boolean unsubscribeUser(ClientProxy handle) throws RemoteException;
 
-    void sendMessage(String username, String message);
+    void sendMessage(String username, String message) throws RemoteException;
 }
