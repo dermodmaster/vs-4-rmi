@@ -3,9 +3,11 @@ import java.rmi.RemoteException;
 
 public class ClientProxyImpl implements ClientProxy, Serializable {
     ChatClient client;
+    String username;
 
     public ClientProxyImpl(ChatClient client) throws RemoteException {
         this.client = client;
+        this.username=client.getUsername();
     }
 
     public void receiveMessage(String username, String message) throws RemoteException{
@@ -13,6 +15,6 @@ public class ClientProxyImpl implements ClientProxy, Serializable {
     }
 
     public String getUsername(){
-        return this.client.getUsername();
+        return this.username;
     }
 }

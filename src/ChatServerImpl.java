@@ -15,8 +15,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
 
     @Override
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
-
-        if(clients.contains(handle))return null;
+        for(int i=0;i<clients.size();i++){
+            if(clients.get(i).getUsername().equals(handle.getUsername())){
+                return null;
+            }
+        }
         clients.add(handle);
 
         return null;
@@ -24,12 +27,16 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
 
     @Override
     public boolean unsubscribeUser(ClientProxy handle) throws RemoteException {
-        boolean success = false;
-        if(this.clients.contains(handle)){
-            this.clients.remove(handle);
-            success = true;
+        for(int i=0;i<clients.size();i++){
+            if(clients.get(i).getUsername().equals(handle.getUsername())){
+                System.out.println("Hura");
+                clients.remove(i);
+                System.out.println(clients.size());
+                return true;
+            }
         }
-        return success;
+        System.out.println("Fehler");
+        return false;
     }
 
     public static void main(String[] args){
