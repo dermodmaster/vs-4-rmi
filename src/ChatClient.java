@@ -89,7 +89,7 @@ public class ChatClient extends JFrame{
      * @param username Von welchem benutzer
      * @param message Die bekommene Nachricht
      */
-    public void receiveMessage(String username, String message) {
+    public void showMessage(String username, String message) {
         output.append(username +": "+message+"\n");
         output.setCaretPosition(output.getText().length()-1);
     }

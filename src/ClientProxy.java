@@ -3,5 +3,5 @@ import java.rmi.RemoteException;
 
 public interface ClientProxy extends Remote {
     public void receiveMessage(String username, String message) throws RemoteException;
-    public String getUsername();
+    public String getUsername() throws RemoteException;
 }
