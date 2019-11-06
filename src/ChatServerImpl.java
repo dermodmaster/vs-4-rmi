@@ -15,16 +15,28 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer{
 
     @Override
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
-
-        if(clients.contains(handle))return null;
-
+        for(int i=0;i<clients.size();i++){
+            if(clients.get(i).getUsername().equals(handle.getUsername())){
+                return null;
+            }
+        }
         clients.add(handle);
+
 
         return null;
     }
 
     @Override
     public boolean unsubscribeUser(ClientProxy handle) throws RemoteException {
+        for(int i=0;i<clients.size();i++){
+            if(clients.get(i).getUsername().equals(handle.getUsername())){
+                System.out.println("Hura");
+                clients.remove(i);
+                System.out.println(clients.size());
+                return true;
+            }
+        }
+        System.out.println("Fehler");
         return false;
     }
 
