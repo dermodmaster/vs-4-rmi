@@ -14,7 +14,9 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
 
     @Override
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
+        if(clients.contains(handle))return null;
 
+        clients.add(handle);
         return null;
     }
 
