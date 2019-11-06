@@ -48,21 +48,6 @@ public class ChatClient extends JFrame{
             }
         });
 
-        JButton close = new JButton("close");
-        getContentPane().add(close, BorderLayout.SOUTH);
-        //beenden
-        close.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    chatServer.unsubscribeUser(handle);
-                }
-                catch(RemoteException re){
-                    re.printStackTrace();
-                }
-                System.exit(0);
-            }
-        });
-
         addWindowListener(new WindowAdapter()
         {
             public void windowClosing(WindowEvent e)
