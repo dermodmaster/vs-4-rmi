@@ -15,7 +15,14 @@ public class ChatClient extends JFrame{
     ChatProxy proxy;
     String username;
 
+    /**
+     * Konstruktor welcher per swing eine Gui erstellt in der Nachrichten gelesen und eingegeben werden können,
+     * stellt außerdem die Verbindung zum Server her.
+     * @param username
+     * @throws Exception
+     */
     public ChatClient(String username) throws Exception {
+        this.username=username;
         Registry registry = LocateRegistry.getRegistry();
         ChatServer chatServer = (ChatServer)registry.lookup("ChatServer");
         handle = new ClientProxyImpl(this);
@@ -32,10 +39,11 @@ public class ChatClient extends JFrame{
         getContentPane().add(scroller, BorderLayout.CENTER);
         input = new JTextField();
         getContentPane().add(input, BorderLayout.NORTH);
+        //Nachricht schreiben
         input.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    sendMessage(input.getText());
+                    sendMessage(input.getText(),username);
                     input.setText("");
                 } catch(RemoteException ex) {
                     ex.printStackTrace();
@@ -45,6 +53,7 @@ public class ChatClient extends JFrame{
 
         JButton close = new JButton("close");
         getContentPane().add(close, BorderLayout.SOUTH);
+        //beenden
         close.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -75,16 +84,26 @@ public class ChatClient extends JFrame{
         }
     }
 
-    public void receiveMessage(String nickname, String message) {
-        System.out.println("Nachricht von "+nickname+": "+message);
+    /**
+     * Bekommen einer Nachricht
+     * @param username Von welchem benutzer
+     * @param message Die bekommene Nachricht
+     */
+    public void receiveMessage(String username, String message) {
+        output.append(username +": "+message+"\n");
+        output.setCaretPosition(output.getText().length()-1);
     }
 
     /**
-     * Dummi
-     * @param message
+     * Versenden einer Nachricht
+     * @param message Die zu versendene Nachricht
+     * @param username Der benutzername
      * @throws RemoteException
      */
-    public void sendMessage(String message) throws RemoteException {
-
+    public void sendMessage(String message,String username) throws RemoteException{
+        proxy.sendMessage(username,message);
+    }
+    public String getUsername(){
+        return username;
     }
 }
