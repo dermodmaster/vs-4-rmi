@@ -2,14 +2,19 @@ import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatServerImpl extends UnicastRemoteObject implements ChatServer {
-    protected ChatServerImpl() throws RemoteException {
+    List<ClientProxy> clients;
 
+    protected ChatServerImpl() throws RemoteException {
+        this.clients = new ArrayList<ClientProxy>();
     }
 
     @Override
     public ChatProxy subscribeUser(ClientProxy handle) throws RemoteException {
+
         return null;
     }
 
