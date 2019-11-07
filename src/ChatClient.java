@@ -92,12 +92,12 @@ public class ChatClient extends JFrame{
      * @param message Die bekommene Nachricht
      */
     public void showMessage(String username, String message) {
-        textArea.append(username +": "+message+"\n");
-        textArea.setCaretPosition(textArea.getText().length()-1);
+        area.append(username +": "+message+"\n");
+        area.setCaretPosition(area.getText().length()-1);
     }
 
     /**
-     * Versenden einer Nachrichto
+     * Versenden einer Nachricht
      * @param message Die zu versendene Nachricht
      * @param username Der benutzername
      * @throws RemoteException
