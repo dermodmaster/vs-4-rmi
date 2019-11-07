@@ -25,6 +25,10 @@ public class ChatClient extends JFrame{
         ChatServer chatServer = (ChatServer)registry.lookup("ChatServer");
         handle = new ClientProxyImpl(this);
         proxy=chatServer.subscribeUser(handle);
+        while(proxy==null){
+            JOptionPane.showMessageDialog(null, "Username bereits Vergeben");
+            System.exit(0);
+        }
 
         setTitle("Username :"+username);
         getContentPane().setLayout(new BorderLayout());
