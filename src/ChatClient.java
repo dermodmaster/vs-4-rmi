@@ -92,7 +92,6 @@ public class ChatClient extends JFrame{
      */
     public void showMessage(String username, String message) {
         area.append(username +": "+message+"\n");
-        area.setCaretPosition(area.getText().length()-1);
     }
 
     /**
