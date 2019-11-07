@@ -6,12 +6,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ChatClient extends JFrame{
-    JTextArea area;
-    JTextField field;
-
     ClientProxy handle;
     ChatProxy proxy;
     String username;
+    JTextField textField;
+    JTextArea textArea;
 
     /**
      * Konstruktor welcher per swing eine Gui erstellt in der Nachrichten gelesen und eingegeben werden können,
@@ -20,6 +19,7 @@ public class ChatClient extends JFrame{
      * @throws Exception
      */
     public ChatClient(String username) throws Exception {
+        setTitle("RMI Chat Client");
         this.username=username;
         Registry registry = LocateRegistry.getRegistry();
         ChatServer chatServer = (ChatServer)registry.lookup("ChatServer");
@@ -30,22 +30,23 @@ public class ChatClient extends JFrame{
             System.exit(0);
         }
 
-        setTitle("Username :"+username);
-        getContentPane().setLayout(new BorderLayout());
-        area = new JTextArea();
-        area.setEditable(false);
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        textField = new JTextField();
+
         JScrollPane scroller = new JScrollPane();
         scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroller.getViewport().setView(area);
+        scroller.getViewport().setView(textArea);
+
+        getContentPane().setLayout(new BorderLayout());
         getContentPane().add(scroller, BorderLayout.CENTER);
-        field = new JTextField();
-        getContentPane().add(field, BorderLayout.NORTH);
+        getContentPane().add(textField, BorderLayout.NORTH);
         //Nachricht schreiben
-        field.addActionListener(new ActionListener() {
+        textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    sendMessage(field.getText(),username);
-                    field.setText("");
+                    sendMessage(textField.getText(),username);
+                    textField.setText("");
                 } catch(RemoteException ex) {
                     ex.printStackTrace();
                 }
@@ -69,14 +70,14 @@ public class ChatClient extends JFrame{
         setSize(1000, 600);
     }
 
-    public static void main (String[] args){
+    public static void main (String[] args) throws RemoteException{
         try {
             String name = JOptionPane.showInputDialog(null, "Eingabe des Namens");
             if (name != null && name.trim().length() > 0) {
                 ChatClient client = new ChatClient(name);
                 client.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(null, "Bitte Geben sie einen Name mit mindestens einem Zeichen ein");
+                JOptionPane.showMessageDialog(null, "Ein leerer Nickname ist nicht gestattet.");
                 System.exit(0);
             }
         }
@@ -91,12 +92,12 @@ public class ChatClient extends JFrame{
      * @param message Die bekommene Nachricht
      */
     public void showMessage(String username, String message) {
-        area.append(username +": "+message+"\n");
-        area.setCaretPosition(area.getText().length()-1);
+        textArea.append(username +": "+message+"\n");
+        textArea.setCaretPosition(textArea.getText().length()-1);
     }
 
     /**
-     * Versenden einer Nachricht
+     * Versenden einer Nachrichto
      * @param message Die zu versendene Nachricht
      * @param username Der benutzername
      * @throws RemoteException
